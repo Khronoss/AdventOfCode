@@ -14,7 +14,7 @@ struct AdventOfCode: ParsableCommand {
         print("Hello, world!")
 
         trace {
-            let challenge = Day4()
+            let challenge = Day5()
             let runner = ChallengeRunner()
 
             runner.run(challenge, logger: printMsg)
