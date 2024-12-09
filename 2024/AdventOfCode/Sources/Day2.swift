@@ -3,9 +3,8 @@ import Foundation
 import Parsing
 
 struct Day2: Challenge {
-    var fileName: String {
-        "Day2_input"
-//        "Day2_example"
+    var useExampleInput: Bool {
+        false
     }
 
     var levelParser: some Parser<Substring, [Int]> {
@@ -24,23 +23,19 @@ struct Day2: Challenge {
         }
     }
 
-    func execute(log: (String, Any?) -> Void) {
-        do {
-            let file = try FileReader()
-                .readFile(fileName)
+    func execute(
+        withInput input: String,
+        log: (String, Any?) -> Void
+    ) throws {
+        let input = try reportParser.parse(input)
+        log("parsed input:", input)
 
-            let input = try reportParser.parse(file)
-            log("parsed input:", input)
+        let safeReports = input
+            .filter(isReportLooslySafe(_:))
+//        log("Safe reports", safeReports)
+        log("Unsafe reports", input.filter { !isReportSafe($0) })
 
-            let safeReports = input
-                .filter(isReportLooslySafe(_:))
-//            log("Safe reports", safeReports)
-            log("Unsafe reports", input.filter { !isReportSafe($0) })
-
-            log("Safe reports count", safeReports.count)
-        } catch {
-            log("Failed to read file", error)
-        }
+        log("Safe reports count", safeReports.count)
     }
 
     func isReportLooslySafe(_ report: [Int]) -> Bool {
