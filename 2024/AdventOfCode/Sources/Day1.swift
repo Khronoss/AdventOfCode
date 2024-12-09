@@ -1,7 +1,7 @@
 import Foundation
 import Parsing
 
-struct Day1 {
+struct Day1: Challenge {
     var body: some Parser<Substring, [(Int, Int)]> {
         Many {
             Int.parser()
@@ -32,7 +32,7 @@ struct Day1 {
 
             log("Result", result)
         } catch {
-            log("Failed to open file", error)
+            log("Failed to read file", error)
         }
     }
 
