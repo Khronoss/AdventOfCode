@@ -1,11 +1,5 @@
-//
-//  Challenge.swift
-//  AdventOfCode
-//
-//  Created by Anthony MERLE on 09/12/2024.
-//
-
 import Foundation
+import FileReader
 
 protocol Challenge {
     var useExampleInput: Bool { get }
@@ -34,7 +28,7 @@ struct ChallengeRunner {
     ) {
         do {
             let file = try FileReader()
-                .readFile(challenge.fileName)
+                .readFile(challenge.fileName, from: .module)
 
             try challenge.execute(withInput: file, log: logger)
         } catch {

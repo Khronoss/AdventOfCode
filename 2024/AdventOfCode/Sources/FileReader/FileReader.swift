@@ -1,17 +1,19 @@
 import Foundation
-import Parsing
 
-struct FileReader {
-    enum Errors: Error {
+public struct FileReader {
+    public enum Errors: Error {
         case fileNotFound(String)
         case couldNotReadFile(Error)
     }
 
-    func readFile(
+    public init() {}
+
+    public func readFile(
         _ name: String,
-        fileExtension: String = "txt"
+        fileExtension: String = "txt",
+        from bundle: Bundle
     ) throws -> String {
-        guard let path = Bundle.module.path(forResource: name, ofType: fileExtension) else {
+        guard let path = bundle.path(forResource: name, ofType: fileExtension) else {
             throw Errors.fileNotFound("\(name).\(fileExtension)")
         }
 
