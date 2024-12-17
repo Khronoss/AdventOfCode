@@ -12,7 +12,7 @@ struct Day6: Challenge {
     func execute(
         withInput input: String,
         log: (String, Any?) -> Void
-    ) throws {
+    ) async throws {
         log("Day6", nil)
 
         let (map, guardState) = try initialize(withInput: input)

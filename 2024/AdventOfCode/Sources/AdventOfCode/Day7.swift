@@ -9,7 +9,7 @@ struct Day7: Challenge {
     func execute(
         withInput input: String,
         log: (String, Any?) -> Void
-    ) throws {
+    ) async throws {
         log("Day7", nil)
 
         let equations = try parser.parse(input)

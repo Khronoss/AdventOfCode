@@ -26,7 +26,7 @@ struct Day2: Challenge {
     func execute(
         withInput input: String,
         log: (String, Any?) -> Void
-    ) throws {
+    ) async throws {
         let input = try reportParser.parse(input)
         log("parsed input:", input)
 

@@ -39,7 +39,7 @@ struct Day4: Challenge {
     func execute(
         withInput input: String,
         log: (String, Any?) -> Void
-    ) throws {
+    ) async throws {
         log("Day 4", fileName)
 
         let lines = input

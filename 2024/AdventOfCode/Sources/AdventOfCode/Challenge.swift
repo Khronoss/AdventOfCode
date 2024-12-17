@@ -8,7 +8,7 @@ protocol Challenge {
     func execute(
         withInput input: String,
         log: (String, Any?) -> Void
-    ) throws
+    ) async throws
 }
 
 extension Challenge {
@@ -25,12 +25,12 @@ struct ChallengeRunner {
     func run<C: Challenge>(
         _ challenge: C,
         logger: (String, Any?) -> Void
-    ) {
+    ) async {
         do {
             let file = try FileReader()
                 .readFile(challenge.fileName, from: .module)
 
-            try challenge.execute(withInput: file, log: logger)
+            try await challenge.execute(withInput: file, log: logger)
         } catch {
             logger("Failed running challenge \(C.self)", error)
         }

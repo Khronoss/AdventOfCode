@@ -8,7 +8,7 @@ struct Day8: Challenge {
     func execute(
         withInput input: String,
         log: (String, Any?) -> Void
-    ) throws {
+    ) async throws {
         log("Day8", nil)
         let map = getMap(from: input)
 

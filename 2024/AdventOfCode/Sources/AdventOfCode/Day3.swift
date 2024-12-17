@@ -9,7 +9,7 @@ struct Day3: Challenge {
     func execute(
         withInput input: String,
         log: (String, Any?) -> Void
-    ) throws {
+    ) async throws {
         //            let regex = /mul\((\d{1,3}),(\d{1,3})\)/
         let regex = /(mul\((\d{1,3}),(\d{1,3})\))|do\(\)|don't\(\)/
 

@@ -19,7 +19,7 @@ struct Day1: Challenge {
     func execute(
         withInput input: String,
         log: (String, Any?) -> Void
-    ) throws {
+    ) async throws {
         let input = try body.parse(input)
             .reduce(into: ([Int](), [Int]())) {
                 $0.0.append($1.0)

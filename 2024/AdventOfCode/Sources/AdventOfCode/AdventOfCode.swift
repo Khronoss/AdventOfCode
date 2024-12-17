@@ -8,22 +8,29 @@ import ArgumentParser
 import Foundation
 
 @main
-struct AdventOfCode: ParsableCommand {
+struct AdventOfCode: AsyncParsableCommand {
 
-    mutating func run() throws {
+    mutating func run() async throws {
         print("Hello, world!")
 
-        trace {
-            let challenge = Day10()
+        let mainRunner = MainRunner()
+
+        await mainRunner.trace {
+            let challenge = Day11()
             let runner = ChallengeRunner()
 
-            runner.run(challenge, logger: printMsg)
+            await runner.run(challenge, logger: mainRunner.printMsg)
         }
     }
 
-    func trace(_ operation: () -> Void) {
+}
+
+struct MainRunner {
+    func trace(_ operation: () async -> Void) async {
+        print("Running challenge")
+
         let start = Date()
-        operation()
+        await operation()
         let end = Date()
 
         printMsg(
