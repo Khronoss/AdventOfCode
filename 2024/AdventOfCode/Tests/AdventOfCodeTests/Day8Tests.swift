@@ -65,7 +65,8 @@ struct Day8Tests {
         
         let freqs = sut.getFrequencies(
             from: antennas[0],
-            and: antennas[1]
+            and: antennas[1],
+            in: Day8.Map(size: Day8.Size(width: 4, height: 5), antennas: [:])
         )
 
         #expect(freqs == expectedFreqs)
@@ -74,11 +75,14 @@ struct Day8Tests {
     @Test func getFrequenciesFromManyAntennas() {
         let sut = Day8()
 
-        let frequencies = sut.getFrequencies(from: [
-            Day8.Antenna(x: 3, y: 2),
-            Day8.Antenna(x: 1, y: 3),
-            Day8.Antenna(x: 1, y: 1)
-        ])
+        let frequencies = sut.getFrequencies(
+            from: [
+                Day8.Antenna(x: 3, y: 2),
+                Day8.Antenna(x: 1, y: 3),
+                Day8.Antenna(x: 1, y: 1)
+            ],
+            in: Day8.Map(size: Day8.Size(width: 4, height: 5), antennas: [:])
+        )
 
         #expect(frequencies == [
             Day8.Frequency(x: 5, y: 1),
