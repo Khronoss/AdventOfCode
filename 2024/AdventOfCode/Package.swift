@@ -9,7 +9,8 @@ let package = Package(
     products: [
         .executable(named: "AdventOfCode"),
         .executable(named: "AdventOfCodeMacApp"),
-        .library(named: "FileReader")
+        .library(named: "FileReader"),
+        .library(named: "AOCTools")
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.0"),
@@ -23,7 +24,8 @@ let package = Package(
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .swiftParsing,
-                "FileReader"
+                "FileReader",
+                "AOCTools"
             ],
             resources: [
                 .process("Resources")
@@ -40,9 +42,14 @@ let package = Package(
             ]
         ),
         .target(name: "FileReader"),
+        .target(name: "AOCTools"),
         .testTarget(
             name: "AdventOfCodeTests",
             dependencies: ["AdventOfCode"]
+        ),
+        .testTarget(
+            name: "AOCToolsTests",
+            dependencies: ["AOCTools"]
         )
     ]
 )
