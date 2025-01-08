@@ -18,7 +18,7 @@ struct Day16: Challenge {
 
         let sortedPaths = map.allPathsFromStartToEnd().sorted(by: { $0.score < $1.score })
         let bestPath = sortedPaths.first!
-        let allBestPaths = sortedPaths.filter { $0.score == bestPath.score }
+//        let allBestPaths = sortedPaths.filter { $0.score == bestPath.score }
 
         print("Score", bestPath.score)
     }
