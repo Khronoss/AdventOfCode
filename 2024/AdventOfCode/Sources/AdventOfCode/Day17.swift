@@ -214,6 +214,6 @@ struct Day17: Challenge {
     }
 }
 
-fileprivate func intPow(_ a: Int, _ b: Int) -> Int {
+func intPow(_ a: Int, _ b: Int) -> Int {
     (pow(Decimal(a), b) as NSDecimalNumber).intValue
 }
