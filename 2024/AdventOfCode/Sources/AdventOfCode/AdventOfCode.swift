@@ -16,7 +16,7 @@ struct AdventOfCode: AsyncParsableCommand {
         let mainRunner = MainRunner()
 
         await mainRunner.trace {
-            let challenge = Day19()
+            let challenge = Day20()
             let runner = ChallengeRunner()
 
             await runner.run(challenge, logger: mainRunner.printMsg)
