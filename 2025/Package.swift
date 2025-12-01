@@ -22,7 +22,8 @@ let package = Package(
             name: "AdventOfCode",
             dependencies: [
                 .product(name: "Parsing", package: "swift-parsing")
-            ]
+            ],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "AdventOfCodeTests",
