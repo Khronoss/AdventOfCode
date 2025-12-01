@@ -27,7 +27,7 @@ struct Day20: Challenge {
         log("Times count", times.count)
     }
 
-    func allCheatTimes(forTrack track: Track) -> [Int] {
+    func allCheatTimes(forTrack track: Track, cheatLength: Int = 2) -> [Int] {
         var times: [Int] = []
         let baseTime = track.count - 1
         let trackSet = Set(track.keys)
@@ -36,7 +36,9 @@ struct Day20: Challenge {
         for (step, i) in track {
             let startCheat = step
 
-            let cheatLength = 2
+            for cheatIdx in (1..<cheatLength) {
+
+            }
             for direction in Position.allDirections {
                 let midPos = startCheat.adding(direction)
                 let endCheat = startCheat.adding(direction.scaled(by: cheatLength))
