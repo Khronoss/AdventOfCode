@@ -20,7 +20,7 @@ struct Day1Tests {
 
         let result = sut.numberOf(0, forSteps: steps)
 
-        #expect(result == 3)
+        #expect(result == 6)
     }
 
     @Test(arguments: [(step: Day1.Step, expected: Int)](

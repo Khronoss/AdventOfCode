@@ -1,7 +1,7 @@
 import Foundation
 
 let day = Day1()
-let fileName = day.identifier + "-1"
+let fileName = day.identifier
 
 guard let inputURL = Bundle.module.url(forResource: fileName, withExtension: "txt") else {
     print("Couldn't find file named \(fileName).txt")
@@ -9,7 +9,7 @@ guard let inputURL = Bundle.module.url(forResource: fileName, withExtension: "tx
 }
 
 do {
-    let result = try day.runPart1(from: inputURL)
+    let result = try day.run(from: inputURL)
 
     print("\(day.identifier) - result:", result)
 } catch {
