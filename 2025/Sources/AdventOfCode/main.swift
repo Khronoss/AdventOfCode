@@ -1,6 +1,6 @@
 import Foundation
 
-let day = Day1()
+let day = Day2()
 let fileName = day.identifier
 
 guard let inputURL = Bundle.module.url(forResource: fileName, withExtension: "txt") else {
