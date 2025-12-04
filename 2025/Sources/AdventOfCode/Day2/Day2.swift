@@ -23,7 +23,7 @@ struct Day2 {
     }
 
     func run(from filePath: URL) throws -> Int {
-        addAllValidIDs(from: try parseInput(from: filePath))
+        addAllInvalidIDs(from: try parseInput(from: filePath))
     }
 
     func parseInput(from filePath: URL) throws -> [ClosedRange<Int>] {
@@ -36,19 +36,19 @@ struct Day2 {
         try rangesParser.parse(input)
     }
 
-    func addAllValidIDs(from ranges: [ClosedRange<Int>]) -> Int {
+    func addAllInvalidIDs(from ranges: [ClosedRange<Int>]) -> Int {
         ranges
-            .flatMap(findValidIDs(for:))
+            .flatMap(findInvalidIDs(for:))
             .reduce(0, +)
     }
 
-    func findValidIDs(for range: ClosedRange<Int>) -> [Int] {
-        let validIDs = allValidIDs(from: testingRange(from: range))
+    func findInvalidIDs(for range: ClosedRange<Int>) -> [Int] {
+        let invalidIDs = allInvalidIDs(from: testingRange(from: range))
 
-        return validIDs.filter { range.contains($0) }
+        return invalidIDs.filter { range.contains($0) }
     }
 
-    func allValidIDs(from testingPoint: ClosedRange<Int>) -> [Int] {
+    func allInvalidIDs(from testingPoint: ClosedRange<Int>) -> [Int] {
         testingPoint.map { value in
             "\(value)".repeatedTwice().toInt
         }

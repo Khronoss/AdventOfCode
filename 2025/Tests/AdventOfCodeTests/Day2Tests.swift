@@ -23,7 +23,7 @@ struct Day2Tests {
         #expect(try sut.rangesOfIDs(from: input) == expected)
     }
 
-    @Test func addAllValidIDs() {
+    @Test func addAllInvalidIDs() {
         let sut = Day2()
         let input = [
             11...22,
@@ -37,18 +37,18 @@ struct Day2Tests {
         ]
         let expected = 1227775554
 
-        #expect(sut.addAllValidIDs(from: input) == expected)
+        #expect(sut.addAllInvalidIDs(from: input) == expected)
     }
 
     @Test(arguments: [
         (11...22, [11, 22]),
         (99...115, [99])
-    ]) func findValidIDsForRange(arg: (ClosedRange<Int>, [Int])) {
+    ]) func findInvalidIDsForRange(arg: (ClosedRange<Int>, [Int])) {
         let sut = Day2()
         let range = arg.0
         let expected = arg.1
 
-        #expect(sut.findValidIDs(for: range) == expected)
+        #expect(sut.findInvalidIDs(for: range) == expected)
     }
 
     @Test(arguments: [
@@ -67,12 +67,12 @@ struct Day2Tests {
         (1...2, [11, 22]),
         (9...11, [99, 1010, 1111]),
         (9...9, [99])
-    ]) func allValidIDs(arg: (ClosedRange<Int>, [Int])) {
+    ]) func allInvalidIDs(arg: (ClosedRange<Int>, [Int])) {
         let sut = Day2()
         let range = arg.0
         let expected = arg.1
 
-        #expect(sut.allValidIDs(from: range) == expected)
+        #expect(sut.allInvalidIDs(from: range) == expected)
     }
 
     @Test(arguments: [
