@@ -3,6 +3,7 @@ import Foundation
 
 struct Day2 {
     let identifier = "Day2"
+    let shouldLog = false
 
     var rangeParser: some Parser<Substring, ClosedRange<Int>> {
         Parse {
@@ -49,11 +50,13 @@ struct Day2 {
             let total = invalidIDs.reduce(0, +)
             result += total
 
-            print("-- Range", range)
-            print("\tInvalidIDs:")
-            print(invalidIDs.map({ "\t\($0)" }).joined(separator: "\n"))
-            print("\tTotal", total)
-            print("\tCummul", result)
+            if shouldLog {
+                print("-- Range", range)
+                print("\tInvalidIDs:")
+                print(invalidIDs.map({ "\t\($0)" }).joined(separator: "\n"))
+                print("\tTotal", total)
+                print("\tCummul", result)
+            }
         }
 
         return result
