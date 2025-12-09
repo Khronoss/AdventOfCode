@@ -1,6 +1,8 @@
 import Parsing
 import Foundation
 
+// TODO: Implement using Monotonic Stack
+
 struct Day3 {
     let identifier = "Day3"
 
@@ -8,11 +10,15 @@ struct Day3 {
         let lines = try String(contentsOf: filePath, encoding: .utf8).split(separator: "\n")
         let banks = lines.map { $0.toListOfInt() }
 
-        return banks.reduce(0) { $0 + maxJoltage(from: $1) }
+        return maxJoltage(from: banks)
+    }
+
+    func maxJoltage(from banks: [[Int]]) -> Int {
+        banks.reduce(0) { $0 + maxJoltage(from: $1) }
     }
 
     func maxJoltage(from bank: [Int]) -> Int {
-        return maxJoltage_rec(bank: bank[0...], acc: 0, countDown: 2)
+        return maxJoltage_rec(bank: bank[0...], acc: 0, countDown: 12)
     }
 
     private func maxJoltage_rec(bank: ArraySlice<Int>, acc: Int, countDown: Int) -> Int {
