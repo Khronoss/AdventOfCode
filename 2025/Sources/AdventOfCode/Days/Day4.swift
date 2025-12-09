@@ -32,18 +32,23 @@ struct Day4 {
     }
 
     func numberOfMovableRollOfPaper(in map: Map) -> Int {
-        movableRollOfPaper(in: map)
-            .filter { $0 < 4 }
-            .count
+        let rop = movableRollOfPaper(in: map)
+
+        return rop.count
     }
 
-    func movableRollOfPaper(in map: Map) -> [Int] {
+    func movableRollOfPaper(in map: Map) -> [Point] {
         (0..<map.maxIndex)
-            .map { numberOfAdjacentRollOfPaper(at: $0, in: map) }
+            .map {
+                let coordinates = map.convertIndexToCoordinates($0)
+
+                return (coordinates, numberOfAdjacentRollOfPaper(at: coordinates, in: map))
+            }
+            .filter { map.isRollOfPaper(at: $0.0) && $0.1 < 4 }
+            .map(\.0)
     }
 
-    func numberOfAdjacentRollOfPaper(at index: Int, in map: Map) -> Int {
-        let coordinate = map.convertIndexToCoordinates(index)
+    func numberOfAdjacentRollOfPaper(at coordinates: Point, in map: Map) -> Int {
         let offsets: [Point] = [
             .init(x: -1, y: -1), .init(x: 0, y: -1), .init(x: 1, y: -1),
             .init(x: -1, y: 0), .init(x: 1, y: 0),
@@ -51,7 +56,7 @@ struct Day4 {
         ]
 
         return offsets
-            .compactMap { map.coordinate(coordinate, offsetBy: $0) }
+            .compactMap { map.coordinates(coordinates, offsetBy: $0) }
             .filter { map.isRollOfPaper(at: $0) }
             .count
     }
@@ -84,15 +89,15 @@ extension Day4.Map {
         index >= 0 && index < maxIndex
     }
 
-    func isInBounds(_ coordinate: Day4.Point) -> Bool {
-        coordinate.x >= 0 && coordinate.x < size.width &&
-        coordinate.y >= 0 && coordinate.y < size.height
+    func isInBounds(_ coordinates: Day4.Point) -> Bool {
+        coordinates.x >= 0 && coordinates.x < size.width &&
+        coordinates.y >= 0 && coordinates.y < size.height
     }
 
-    func coordinate(_ coordinate: Day4.Point, offsetBy offset: Day4.Point) -> Day4.Point? {
+    func coordinates(_ coordinates: Day4.Point, offsetBy offset: Day4.Point) -> Day4.Point? {
         let newPoint = Day4.Point(
-            x: coordinate.x + offset.x,
-            y: coordinate.y + offset.y
+            x: coordinates.x + offset.x,
+            y: coordinates.y + offset.y
         )
 
         guard isInBounds(newPoint) else { return nil }

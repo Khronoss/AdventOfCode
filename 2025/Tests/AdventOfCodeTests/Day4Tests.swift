@@ -43,11 +43,11 @@ struct Day4Tests {
     }
 
     @Test(arguments: [
-        (5, 3),
-        (2, 2),
-        (11, 1),
-        (14, 2)
-    ]) func numberOfAdjacentRollOfPaper(_ args: (Int, Int)) {
+        (Day4.Point(x: 1, y: 1), 3),
+        (Day4.Point(x: 2, y: 0), 2),
+        (Day4.Point(x: 3, y: 2), 1),
+        (Day4.Point(x: 2, y: 3), 2)
+    ]) func numberOfAdjacentRollOfPaper(_ args: (Day4.Point, Int)) {
         let sut = Day4()
         let map = Day4.Map("""
         ..@@
