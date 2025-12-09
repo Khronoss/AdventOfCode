@@ -9,9 +9,13 @@ guard let inputURL = Bundle.module.url(forResource: fileName, withExtension: "tx
 }
 
 do {
+    print("Running \(day.identifier)...")
+    let start = Date()
+
     let result = try day.run(from: inputURL)
 
     print("\(day.identifier) - result:", result)
+    print("Execution took \(Date().timeIntervalSince(start)) seconds to run")
 } catch {
     print("Failed", error)
 }

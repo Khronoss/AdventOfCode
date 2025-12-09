@@ -43,68 +43,40 @@ struct Day2 {
     }
 
     func findInvalidIDs(for range: ClosedRange<Int>) -> [Int] {
-        let invalidIDs = allInvalidIDs(from: testingRange(from: range))
-
-        return invalidIDs.filter { range.contains($0) }
-    }
-
-    func allInvalidIDs(from testingPoint: ClosedRange<Int>) -> [Int] {
-        testingPoint.map { value in
-            "\(value)".repeatedTwice().toInt
-        }
-    }
-
-    func testingRange(from range: ClosedRange<Int>) -> ClosedRange<Int> {
-        let lowerBound = lowestTestingPoint(for: range)
-        let upperBound = highestTestingPoint(for: range)
-
-        return lowerBound...upperBound
-    }
-
-    func lowestTestingPoint(for range: ClosedRange<Int>) -> Int {
-        testingPoint(for: range.lowerBound)
-    }
-
-    func highestTestingPoint(for range: ClosedRange<Int>) -> Int {
-        testingPoint(for: range.upperBound, roundedUp: true)
-    }
-
-    func testingPoint(for value: Int, roundedUp: Bool = false) -> Int {
-        let half = "\(value)"
-            .firstHalf(roundedUp: roundedUp)
-
-        guard !half.isEmpty else { return 1 }
-
-        return half.toInt
+        range.filter { $0.isRepeating() }
     }
 }
 
-extension StringProtocol {
-    var toInt: Int {
-        guard let result = Int(self) else {
-            fatalError("Could not parse value: \(self)")
-        }
-        return result
+extension Int {
+    func isRepeatingTwice() -> Bool {
+        let half = Int(round(Double(self.digitsCount()) / 2))
+        return isRepeating(sequenceLength: half)
     }
 
-    func firstHalf(roundedUp: Bool) -> Self.SubSequence {
-        let size = if roundedUp {
-            Int(ceil(Double(self.count) / 2))
-        } else {
-            self.count / 2
-        }
-
-        return getSubSequence(ofLength: size, atOffset: 0)
-
-        func getSubSequence(ofLength length: Int, atOffset offset: Int) -> Self.SubSequence {
-            let startIndex = self.index(self.startIndex, offsetBy: offset * length)
-            let endIndex = self.index(self.startIndex, offsetBy: (offset + 1) * length)
-
-            return self[startIndex..<endIndex]
-        }
+    func isRepeating() -> Bool {
+        let half = Int(round(Double(self.digitsCount()) / 2))
+        return (1...half).contains(where: { sequenceLength in
+            isRepeating(sequenceLength: sequenceLength)
+        })
     }
 
-    func repeatedTwice() -> String {
-        String(repeating: String(self), count: 2)
+    func isRepeating(sequenceLength seqLength: Int) -> Bool {
+        let length = digitsCount()
+        let divisor = pow(10, seqLength).toInt()
+        let pattern = self % divisor
+        let repeated = (1...length/seqLength).reduce(0) { acc, _ in
+            acc * divisor + pattern
+        }
+        return self == repeated
+    }
+
+    func digitsCount() -> Int {
+        Int(floor(log10(Double(self))) + 1)
+    }
+}
+
+extension Decimal {
+    func toInt() -> Int {
+        NSDecimalNumber(decimal: self).intValue
     }
 }

@@ -34,15 +34,18 @@ struct Day2Tests {
             1698522...1698528,
             446443...446449,
             38593856...38593862,
+            565653...565659,
+            824824821...824824827,
+            2121212118...2121212124
         ]
-        let expected = 1227775554
+        let expected = 4174379265
 
         #expect(sut.addAllInvalidIDs(from: input) == expected)
     }
 
     @Test(arguments: [
         (11...22, [11, 22]),
-        (99...115, [99])
+        (99...115, [99, 111])
     ]) func findInvalidIDsForRange(arg: (ClosedRange<Int>, [Int])) {
         let sut = Day2()
         let range = arg.0
@@ -52,49 +55,55 @@ struct Day2Tests {
     }
 
     @Test(arguments: [
-        (11...22, 1...2),
-        (95...115, 9...11),
-        (998...1012, 9...10)
-    ]) func testingRange(arg: (ClosedRange<Int>, ClosedRange<Int>)) {
-        let sut = Day2()
-        let range = arg.0
-        let expected = arg.1
-
-        #expect(sut.testingRange(from: range) == expected)
+        11,
+        123123,
+        1234567812345678
+    ]) func intIsRepeatingTwice(_ input: Int) {
+        #expect(input.isRepeatingTwice() == true)
     }
 
     @Test(arguments: [
-        (1...2, [11, 22]),
-        (9...11, [99, 1010, 1111]),
-        (9...9, [99])
-    ]) func allInvalidIDs(arg: (ClosedRange<Int>, [Int])) {
-        let sut = Day2()
-        let range = arg.0
-        let expected = arg.1
-
-        #expect(sut.allInvalidIDs(from: range) == expected)
+        111,
+        123123123,
+        4236785428
+    ]) func intIsRepeatingTwiceFalse(_ input: Int) {
+        #expect(input.isRepeatingTwice() == false)
     }
 
     @Test(arguments: [
-        ("abcd", roundedUp: false, "ab"),
-        ("abcd", roundedUp: true, "ab"),
-        ("abcdefg", roundedUp: false, "abc"),
-        ("abcdefg", roundedUp: true, "abcd")
-    ]) func stringFirstHalf(arg: (String, roundedUp: Bool, Substring)) {
+        111,
+        123123123,
+        121212
+    ]) func intIsRepeatingThreeTimes(_ input: Int) {
+        #expect(input.isRepeating() == true)
+    }
+
+    @Test(arguments: [
+        11111,
+        1212121212,
+        123123123123123
+    ]) func intIsRepeatingFiveTimes(_ input: Int) {
+        #expect(input.isRepeating() == true)
+    }
+
+    @Test(arguments: [
+        123,
+        1234,
+        1234567890,
+        123123143,
+        122212
+    ]) func intIsRepeatingFalse(_ input: Int) {
+        #expect(input.isRepeating() == false)
+    }
+
+    @Test(arguments: [
+        (4, 1),
+        (14, 2),
+        (12345, 5)
+    ]) func intDigitsLength(_ arg: (input: Int, expected: Int)) {
         let input = arg.0
-        let roundedUp = arg.1
-        let expected = arg.2
-
-        #expect(input.firstHalf(roundedUp: roundedUp) == expected)
-    }
-
-    @Test(arguments: [
-        ("abcd", "abcdabcd"),
-        ("abcdefg", "abcdefgabcdefg")
-    ]) func stringRepeatedTwice(arg: (String, String)) {
-        let input = arg.0
         let expected = arg.1
 
-        #expect(input.repeatedTwice() == expected)
+        #expect(input.digitsCount() == expected)
     }
 }
