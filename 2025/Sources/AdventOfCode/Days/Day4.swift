@@ -25,7 +25,21 @@ struct Day4 {
     }
 
     func run(from filePath: URL) throws -> Int {
-        0
+        let content = try String(contentsOf: filePath, encoding: .utf8)
+        let map = Map(content)
+
+        return numberOfMovableRollOfPaper(in: map)
+    }
+
+    func numberOfMovableRollOfPaper(in map: Map) -> Int {
+        movableRollOfPaper(in: map)
+            .filter { $0 < 4 }
+            .count
+    }
+
+    func movableRollOfPaper(in map: Map) -> [Int] {
+        (0..<map.maxIndex)
+            .map { numberOfAdjacentRollOfPaper(at: $0, in: map) }
     }
 
     func numberOfAdjacentRollOfPaper(at index: Int, in map: Map) -> Int {
@@ -44,6 +58,10 @@ struct Day4 {
 }
 
 extension Day4.Map {
+    var maxIndex: Int {
+        size.width * size.height
+    }
+
     func isRollOfPaper(at position: Day4.Point) -> Bool {
         let row = map[position.y]
         let char = row[row.index(row.startIndex, offsetBy: position.x)]
@@ -52,7 +70,7 @@ extension Day4.Map {
     }
 
     func convertIndexToCoordinates(_ index: Int) -> Day4.Point {
-        guard index >= 0 && index < size.width * size.height else {
+        guard index >= 0 && index < maxIndex else {
             preconditionFailure("Index out of bounds")
         }
 
@@ -63,7 +81,7 @@ extension Day4.Map {
     }
 
     func isInBounds(_ index: Int) -> Bool {
-        index >= 0 && index < size.width * size.height
+        index >= 0 && index < maxIndex
     }
 
     func isInBounds(_ coordinate: Day4.Point) -> Bool {
