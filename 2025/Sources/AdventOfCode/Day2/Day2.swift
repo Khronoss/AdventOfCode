@@ -23,7 +23,12 @@ struct Day2 {
     }
 
     func run(from filePath: URL) throws -> Int {
-        addAllInvalidIDs(from: try parseInput(from: filePath))
+        let ranges = (try parseInput(from: filePath))
+            .sorted { lhs, rhs in
+                lhs.lowerBound < rhs.lowerBound
+            }
+
+        return addAllInvalidIDs(from: ranges)
     }
 
     func parseInput(from filePath: URL) throws -> [ClosedRange<Int>] {
@@ -37,9 +42,21 @@ struct Day2 {
     }
 
     func addAllInvalidIDs(from ranges: [ClosedRange<Int>]) -> Int {
-        ranges
-            .flatMap(findInvalidIDs(for:))
-            .reduce(0, +)
+        var result = 0
+
+        ranges.forEach { range in
+            let invalidIDs = findInvalidIDs(for: range)
+            let total = invalidIDs.reduce(0, +)
+            result += total
+
+            print("-- Range", range)
+            print("\tInvalidIDs:")
+            print(invalidIDs.map({ "\t\($0)" }).joined(separator: "\n"))
+            print("\tTotal", total)
+            print("\tCummul", result)
+        }
+
+        return result
     }
 
     func findInvalidIDs(for range: ClosedRange<Int>) -> [Int] {
@@ -54,7 +71,11 @@ extension Int {
     }
 
     func isRepeating() -> Bool {
-        let half = Int(round(Double(self.digitsCount()) / 2))
+        let length = self.digitsCount()
+
+        guard length > 1 else { return false }
+
+        let half = Int(round(Double(length) / 2))
         return (1...half).contains(where: { sequenceLength in
             isRepeating(sequenceLength: sequenceLength)
         })

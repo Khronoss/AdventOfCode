@@ -87,6 +87,7 @@ struct Day2Tests {
     }
 
     @Test(arguments: [
+        1,
         123,
         1234,
         1234567890,
