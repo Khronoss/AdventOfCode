@@ -13,7 +13,7 @@ struct Day4Tests {
         let map = Day4.Map(input)
 
         #expect(map.size == .init(width: 4, height: 4))
-        #expect(map.map == input.split(separator: "\n"))
+        #expect(map.map == input.split(separator: "\n").map(String.init))
     }
 
     @Test func isRollOfPaperAtIndex() {
@@ -60,5 +60,27 @@ struct Day4Tests {
         let expected = args.1
 
         #expect(sut.numberOfAdjacentRollOfPaper(at: input, in: map) == expected)
+    }
+
+    @Test func mapRemoveRollOfPaper() {
+        var map = Day4.Map("""
+        ..@@
+        @@..
+        .@.@
+        @.@.
+        """)
+
+        map.removeRollOfPapers(at: [
+            .init(x: 2, y: 0),
+            .init(x: 0, y: 1),
+            .init(x: 3, y: 2)
+        ])
+
+        #expect(map.map == [
+            "...@",
+            ".@..",
+            ".@..",
+            "@.@."
+        ])
     }
 }

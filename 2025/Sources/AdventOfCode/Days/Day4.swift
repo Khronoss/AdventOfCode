@@ -13,11 +13,11 @@ struct Day4 {
     }
 
     struct Map {
-        let map: [Substring]
+        var map: [String]
         let size: Size
 
         init(_ stringMap: String) {
-            let map = stringMap.split(separator: "\n")
+            let map = stringMap.split(separator: "\n").map(String.init)
 
             self.map = map
             self.size = Size(width: map.first!.count, height: map.count)
@@ -28,13 +28,37 @@ struct Day4 {
         let content = try String(contentsOf: filePath, encoding: .utf8)
         let map = Map(content)
 
-        return numberOfMovableRollOfPaper(in: map)
+        return numberOfMovedRollOfPapers(in: map)
     }
 
     func numberOfMovableRollOfPaper(in map: Map) -> Int {
         let rop = movableRollOfPaper(in: map)
 
         return rop.count
+    }
+
+    func numberOfMovedRollOfPapers(in map: Map) -> Int {
+        var newMap = map
+
+        return moveRollOfPapersBySteps(in: &newMap).count
+    }
+
+    func moveRollOfPapersBySteps(in map: inout Map) -> [Point] {
+        var movedROPs: [Point] = []
+        var stop = false
+
+        while !stop {
+            let movables = movableRollOfPaper(in: map)
+
+            if movables.isEmpty {
+                stop = true
+            } else {
+                map.removeRollOfPapers(at: movables)
+                movedROPs += movables
+            }
+        }
+
+        return movedROPs
     }
 
     func movableRollOfPaper(in map: Map) -> [Point] {
@@ -103,5 +127,16 @@ extension Day4.Map {
         guard isInBounds(newPoint) else { return nil }
 
         return newPoint
+    }
+
+    mutating func removeRollOfPapers(at coordinates: [Day4.Point]) {
+        coordinates.forEach { point in
+            var row = map[point.y]
+
+            let index = row.index(row.startIndex, offsetBy: point.x)
+            row.replaceSubrange(index...index, with: ".")
+
+            map[point.y] = row
+        }
     }
 }
