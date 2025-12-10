@@ -1,7 +1,7 @@
 import Foundation
 
-let day = Day7()
-let isTesting = false
+let day = Day8()
+let isTesting = true
 let dayIdentifier = day.identifier + (isTesting ? "-test" : "")
 let fileName = dayIdentifier
 
