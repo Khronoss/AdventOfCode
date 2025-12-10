@@ -2,28 +2,6 @@
 import Testing
 
 struct Day6Tests {
-    @Test(arguments: [
-        ("123 328  51 64", [123, 328, 51, 64]),
-        (" 45 64  387 23", [45, 64, 387, 23]),
-        ("  6 98  215 314", [6, 98, 215, 314]),
-    ]) func parseRow(_ args: (String, [Int])) throws {
-        let input = args.0
-        let expected = args.1
-
-        let result = try ParsableWorksheet().valuesRow.parse(input)
-
-        #expect(result == expected)
-    }
-
-    @Test func parseOperations() throws {
-        let input = "*   +   *   +  "
-        let expected = [Day6.Operator.multiply, .add, .multiply, .add]
-
-        let result = try ParsableWorksheet().operatorsRow.parse(input)
-
-        #expect(result == expected)
-    }
-
     @Test func parseInput() throws {
         let sut = Day6()
         let result = try sut.parseInput("""
@@ -35,9 +13,10 @@ struct Day6Tests {
 
         #expect(result == Day6.Worksheet(
             values: [
-                [123, 328, 51, 64],
-                [45, 64, 387, 23],
-                [6, 98, 215, 314]
+                [1, 24, 356],
+                [369, 248, 8],
+                [32, 581, 175],
+                [623, 431, 4]
             ],
             operations: [.multiply, .add, .multiply, .add]
         ))
@@ -46,13 +25,14 @@ struct Day6Tests {
     @Test func executeSingleOperation() {
         let sut = Day6.Worksheet(
             values: [
-                [123, 328, 51, 64],
-                [45, 64, 387, 23],
-                [6, 98, 215, 314]
+                [1, 24, 356],
+                [369, 248, 8],
+                [32, 581, 175],
+                [623, 431, 4]
             ],
             operations: [.multiply, .add, .multiply, .add]
         )
-        let expected = 33210
+        let expected = 8544
 
         #expect(sut.runOperation(at: 0) == expected)
     }
@@ -60,13 +40,14 @@ struct Day6Tests {
     @Test func executeOperations() {
         let sut = Day6.Worksheet(
             values: [
-                [123, 328, 51, 64],
-                [45, 64, 387, 23],
-                [6, 98, 215, 314]
+                [1, 24, 356],
+                [369, 248, 8],
+                [32, 581, 175],
+                [623, 431, 4]
             ],
             operations: [.multiply, .add, .multiply, .add]
         )
-        let expected = [33210, 490, 4243455, 401]
+        let expected = 3263827
 
         #expect(sut.runOperations() == expected)
     }

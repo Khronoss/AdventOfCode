@@ -21,11 +21,19 @@ struct Day6 {
             case .multiply: 1
             }
         }
+
+        static func from(_ char: Character) -> Self? {
+            switch char {
+            case "+": return .add
+            case "*": return .multiply
+            default: return nil
+            }
+        }
     }
 
     struct Worksheet: Equatable {
-        let values: [[Int]]
-        let operations: [Operator]
+        var values: [[Int]] = []
+        var operations: [Operator] = []
     }
 
     func run(from filePath: URL) throws -> Int {
@@ -33,25 +41,48 @@ struct Day6 {
         let worksheet = try parseInput(inputText)
 
         return worksheet.runOperations()
-            .reduce(0, +)
     }
 
     func parseInput(_ input: String) throws -> Worksheet {
-        try ParsableWorksheet().parse(input)
+        let lines = input.split(separator: "\n")
+        let maxColumn = lines.map(\.count).max()!
+        let operationIndex = lines.count - 1
+
+        return (0..<maxColumn).reduce(into: Worksheet()) { worksheet, index in
+            if let operation = Operator.from(lines[operationIndex].atIndex(index)) {
+                worksheet.operations.append(operation)
+                worksheet.values.append([])
+            }
+
+            let numberStr = (0..<operationIndex).reduce("") { partialResult, rowIndex in
+                guard lines[rowIndex].count > index else { return partialResult }
+
+                return partialResult + String(lines[rowIndex].atIndex(index))
+            }.trimmingCharacters(in: .whitespaces)
+            if numberStr.isEmpty { return }
+
+            let number = Int(numberStr)!
+
+            if var newValues = worksheet.values.popLast() {
+                newValues.append(number)
+                worksheet.values.append(newValues)
+            }
+        }
     }
 }
 
 extension Day6.Worksheet {
-    func runOperations() -> [Int] {
+    func runOperations() -> Int {
         (0..<operations.count)
             .map { runOperation(at: $0) }
+            .reduce(0, +)
     }
 
     func runOperation(at index: Int) -> Int {
         let operation = operations[index]
 
-        return values.reduce(operation.initialValue) { result, row in
-            operation.run(result, row[index])
+        return values[index].reduce(operation.initialValue) { result, value in
+            operation.run(result, value)
         }
     }
 }
@@ -102,5 +133,11 @@ struct ParsableWorksheet: Parser {
 
             Whitespace()
         }
+    }
+}
+
+extension StringProtocol {
+    func atIndex(_ index: Int) -> Character {
+        self[self.index(self.startIndex, offsetBy: index)]
     }
 }
