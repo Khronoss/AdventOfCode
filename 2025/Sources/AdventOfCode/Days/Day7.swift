@@ -27,7 +27,9 @@ struct Day7 {
         }
 
         mutating func moveBeam(at index: Int) {
-            nextBeams[index] = (beams[index] ?? 0) + (nextBeams[index] ?? 0)
+            guard let beam = beams[index] else { return }
+
+            nextBeams[index] = beam + (nextBeams[index] ?? 0)
         }
 
         var nextState: Self {
